@@ -1,0 +1,33 @@
+SQL> --Help with input prompt syntax from chat gpt
+SQL> ACCEPT product_id CHAR PROMPT 'Enter Product ID: ';
+Enter Product ID: 1
+SQL> 
+SQL> COLUMN review_id FORMAT 999999
+SQL> COLUMN "CUSTOMER_NAME" FORMAT A20
+SQL> COLUMN product_name FORMAT A20
+SQL> COLUMN review_date FORMAT A20
+SQL> COLUMN review_message FORMAT A51
+SQL> COLUMN rating FORMAT A10
+SQL> 
+SQL> SELECT Reviews.review_id,
+  2  	    Customers.first_name || ' ' || Customers.last_name AS "CUSTOMER_NAME",
+  3  	    Products.product_name,
+  4  	    TO_CHAR(Reviews.review_date, 'YYYY-MM-DD') AS review_date,
+  5  	    Reviews.review_message,
+  6  	    TO_CHAR(Reviews.rating) AS rating
+  7  FROM Reviews
+  8  JOIN Customers ON Reviews.customer_id = Customers.customer_id
+  9  JOIN Products ON Reviews.product_id = Products.product_id
+ 10  WHERE Reviews.product_id = '&product_id';
+old  10: WHERE Reviews.product_id = '&product_id'
+new  10: WHERE Reviews.product_id = '1'
+
+REVIEW_ID CUSTOMER_NAME        PRODUCT_NAME         REVIEW_DATE          REVIEW_MESSAGE                                      RATING                                                                                                                                                                                                                                                                                                                                                                                 
+--------- -------------------- -------------------- -------------------- --------------------------------------------------- ----------                                                                                                                                                                                                                                                                                                                                                                             
+        1 Alice Johnson        Headphones X         2023-11-05           These headphones are fantastic! Great sound quality 5                                                                                                                                                                                                                                                                                                                                                                                      
+                                                                          and very comfortable.                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+
+SQL> CLEAR COLUMNS;
+SQL> 
+SQL> SPOOL OFF

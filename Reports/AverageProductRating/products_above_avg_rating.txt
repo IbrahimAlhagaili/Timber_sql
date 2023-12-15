@@ -1,0 +1,44 @@
+SQL> 
+SQL> ACCEPT avg_rating NUMBER PROMPT 'Enter the average rating threshold: '
+Enter the average rating threshold: 4
+SQL> 
+SQL> COLUMN "PRODUCT_ID" FORMAT 999
+SQL> COLUMN "PRODUCT_NAME" FORMAT A30
+SQL> COLUMN "PRODUCT_DESCRIPTION" FORMAT A50
+SQL> COLUMN "PRODUCT_WEIGHT" FORMAT 999.999
+SQL> COLUMN "PRODUCT_STOCK" FORMAT 999
+SQL> COLUMN "PRODUCT_RATING" FORMAT 999.99
+SQL> 
+SQL> SELECT
+  2  	 products.product_id as "PRODUCT_ID",
+  3  	 products.product_name as "PRODUCT_NAME",
+  4  	 products.product_description as "PRODUCT_DESCRIPTION",
+  5  	 products.product_weight as "PRODUCT_WEIGHT",
+  6  	 TO_CHAR(products.price, '$999.99') AS "PRICE",
+  7  	 products.product_stock as "PRODUCT_STOCK",
+  8  	 AVG(reviews.rating) AS "PRODUCT_RATING"
+  9  FROM
+ 10  	 products
+ 11  JOIN
+ 12  	 reviews ON products.product_id = reviews.product_id
+ 13  GROUP BY
+ 14  	 products.product_id,
+ 15  	 products.product_name,
+ 16  	 products.product_description,
+ 17  	 products.product_weight,
+ 18  	 products.category_id,
+ 19  	 TO_CHAR(products.price, '$999.99'),
+ 20  	 products.product_stock
+ 21  HAVING
+ 22  	 AVG(reviews.rating) > &avg_rating;
+old  22:     AVG(reviews.rating) > &avg_rating
+new  22:     AVG(reviews.rating) >          4
+
+PRODUCT_ID PRODUCT_NAME                   PRODUCT_DESCRIPTION                                PRODUCT_WEIGHT PRICE    PRODUCT_STOCK PRODUCT_RATING                                                                                                                                                                                                                                                                                                                                                                   
+---------- ------------------------------ -------------------------------------------------- -------------- -------- ------------- --------------                                                                                                                                                                                                                                                                                                                                                                   
+         1 Headphones X                   High-quality over-ear headphones                             .400  $149.99            50           5.00                                                                                                                                                                                                                                                                                                                                                                   
+         5 Childrens Books Set            Collection of classic childrens books                       1.500   $49.99           100           5.00                                                                                                                                                                                                                                                                                                                                                                   
+         7 Running Shoes                  High-performance running shoes for athletes                  .800   $89.99            40           5.00                                                                                                                                                                                                                                                                                                                                                                   
+
+SQL> 
+SQL> SPOOL OFF

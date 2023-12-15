@@ -1,0 +1,30 @@
+SQL> 
+SQL> COLUMN category_name FORMAT A20
+SQL> COLUMN subcategory_name FORMAT A20
+SQL> 
+SQL> SELECT
+  2      Category.category_name,
+  3      SubCategory.sub_category_name AS subcategory_name
+  4  FROM
+  5      Category
+  6  LEFT JOIN
+  7      SubCategory ON Category.category_id = SubCategory.category_id
+  8  ORDER BY
+  9      Category.category_id, SubCategory.sub_category_id;
+
+CATEGORY_NAME        SUBCATEGORY_NAME                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+-------------------- --------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+Electronics          Laptops                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+Electronics          Smartphones                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+Clothing             T-shirts                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+Home And Garden      Furniture                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+Home And Garden      Outdoor                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+Toys                 Action Figures                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+Books                Mystery                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+
+7 rows selected.
+
+SQL> 
+SQL> clear columns;
+columns cleared
+SQL> SPOOL OFF
